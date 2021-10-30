@@ -2,6 +2,7 @@
 from EasyScript.EasyLexer import *
 from EasyScript.EasyParser import *
 from EasyScript.EasyInterpreter import *
+from EasyScript.EasyContext import *
 
 def run(fn, text):
     # 生成 Token
@@ -16,7 +17,8 @@ def run(fn, text):
     
     
     interpreter =Interpreter()
-    result = interpreter.visit(ast.node)
+    context = Context('<program>')
+    result = interpreter.visit(ast.node, context)
     
     
     return result.value, result.error
