@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-
+from EasyScript import *
 class Position:
     def __init__(self, idx, ln, col, fn, ftxt):
         self.idx = idx
@@ -8,7 +8,7 @@ class Position:
         self.fn = fn
         self.ftxt = ftxt
     
-    def advance(self, current_char):
+    def advance(self, current_char=None):
         self.idx += 1
         self.col += 1
         
