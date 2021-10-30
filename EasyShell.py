@@ -3,6 +3,7 @@ from EasyScript.EasyTokens import *
 from EasyScript.EasyLexer import *
 from EasyScript.EasyPyErrors import *
 from EasyScript.EasyRun import *
+from EasyCode import *
 import sys
 
 def shell():
@@ -20,3 +21,4 @@ def shell():
             print(result)
 
 shell()
+output()
