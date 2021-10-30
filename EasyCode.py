@@ -1,7 +1,7 @@
 
-def output (*text)   	
+def output (*text):
     print(text)
     
-return
+    return
 output(text)
 
