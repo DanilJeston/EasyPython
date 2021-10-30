@@ -12,7 +12,7 @@ def shell():
             print('GoodBye!')
             sys.exit()
         else:
-            result, error = run(text)
+            result, error = run('<stdin>', text)
         
         if error:
             print(error.as_string())
