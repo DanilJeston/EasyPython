@@ -1,6 +1,7 @@
 
-def output (text)   	
+def output ()   	
+    
     print(text)
     
 return
-output("text")
+
