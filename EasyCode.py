@@ -1,6 +1,6 @@
 
 def output (*text):
-    print(text)
+    print(str(text))
     
     return
 output(text)
