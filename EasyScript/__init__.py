@@ -6,3 +6,4 @@ from EasyScript.EasyPosition import *
 from EasyScript.EasyNodes import *
 from EasyScript.EasyParser import *
 from EasyScript.EasyStringWithArrows import *
+from EasyScript.EasyInterpreter import *

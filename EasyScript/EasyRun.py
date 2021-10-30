@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 from EasyScript.EasyLexer import *
 from EasyScript.EasyParser import *
+from EasyScript.EasyInterpreter import *
 
 def run(fn, text):
     # 生成 Token
@@ -11,5 +12,11 @@ def run(fn, text):
     # 生成 AST
     parser = Parser(tokens)
     ast = parser.parse()
+    if ast.error:return None,ast.error
     
-    return ast.node, ast.error
+    
+    interpreter =Interpreter()
+    result = interpreter.visit(ast.node)
+    
+    
+    return result.value, result.error

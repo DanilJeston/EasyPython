@@ -7,7 +7,7 @@ import sys
 
 def shell():
     while True:
-        text = input("EasyPy > ")
+        text = input("EasyPy >>> ")
         if text == 'exit':
             print('GoodBye!')
             sys.exit()
