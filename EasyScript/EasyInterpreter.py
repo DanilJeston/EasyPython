@@ -28,12 +28,14 @@ class Interpreter:
         
         if node.op_tok.type == TT_PLUS:
             result, error = left.added_to(right)
-        if node.op_tok.type == TT_MINUS:
+        elif node.op_tok.type == TT_MINUS:
             result, error = left.subbed_by(right)
-        if node.op_tok.type == TT_MUL:
+        elif node.op_tok.type == TT_MUL:
             result, error = left.multed_by(right)
-        if node.op_tok.type == TT_DIV:
+        elif node.op_tok.type == TT_DIV:
             result, error = left.dived_by(right)
+        elif node.op_tok.type == TT_POW:
+            result, error = left.powed_by(right)
         
         
         
