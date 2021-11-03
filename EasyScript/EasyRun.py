@@ -3,6 +3,11 @@ from EasyScript.EasyLexer import *
 from EasyScript.EasyParser import *
 from EasyScript.EasyInterpreter import *
 from EasyScript.EasyContext import *
+from EasyScript.EasySymbolTable import *
+
+global_symbol_table = SymbolTable()
+global_symbol_table.set('null', Number(0))
+
 
 def run(fn, text):
     # 生成 Token
@@ -18,6 +23,7 @@ def run(fn, text):
     
     interpreter =Interpreter()
     context = Context('<program>')
+    context.symbol_table = global_symbol_table
     result = interpreter.visit(ast.node, context)
     
     

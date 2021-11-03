@@ -32,6 +32,10 @@ class Parser:
             res.register(self.advance())
             return res.success(NumberNode(tok))
         
+        elif tok.type  == TT_IDENTIFIER:
+            res.register(self.advance())
+            return res.success(VarAccessNode(tok))
+        
         elif tok.type == TT_LPAREN:
             res.register(self.advance())
             expr = res.register(self.expr())
@@ -71,6 +75,32 @@ class Parser:
         return self.bin_op(self.factor, (TT_MUL, TT_DIV))
     
     def expr(self):
+        res = ParseResult()
+        if self.current_tok.matches(TT_KEYWORD, 'VAR'):
+            res.register(self.advance())
+            
+            if self.current_tok.type != TT_IDENTIFIER:
+                return res.failure(InvalidSyntaxError(
+                    self.current_tok.pos_start, self.current_tok.pos_end,
+                    "Expected identifier"
+                ))
+            
+            var_name = self.current_tok
+            res.register(self.advance())
+            
+            if self.current_tok.type != TT_EQ:
+                return res.failure(InvalidSyntaxError(
+                    self.current_tok.pos_start, self.current_tok.pos_end,
+                    "Expected '='"
+                ))
+            
+            res.register(self.advance())
+            expr = res.register(self.expr())
+            
+            if res.error : return res
+            
+            return res.success(VarAssignNode(var_name, expr))
+        
         return self.bin_op(self.term, (TT_PLUS, TT_MINUS))
     
     def bin_op(self, func_a, ops, func_b=None):
