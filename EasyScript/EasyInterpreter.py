@@ -24,7 +24,7 @@ class Interpreter:
                 "'{var_name}' is not defined".format(var_name = var_name),
                 context
             ))
-        
+        value = value.copy().set_pos(node.pos_start, node.pos_end)
         return res.success(value)
     
     def visit_VarAssignNode(self, node, context):
