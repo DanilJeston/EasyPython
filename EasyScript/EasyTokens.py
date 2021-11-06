@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 import string
 
-
 # CONSTANTS 常量
 
 # 数字
@@ -12,8 +11,6 @@ LETTERS = string.ascii_letters
 
 # 数字 + 字母
 LETTERS_DIGITS = LETTERS + DIGITS
-
-
 
 # TOKEN
 
@@ -29,28 +26,37 @@ TT_POW = 'POW'
 TT_EQ = 'EQ'
 TT_LPAREN = 'LPAREN'
 TT_RPAREN = 'RPAREN'
+TT_EE = 'EE'
+TT_NE = 'NE'
+TT_LT = 'LT'
+TT_GT = 'GT'
+TT_LTE = 'LTE'
+TT_GTE = 'GTE'
 TT_EOF = 'EOF'
 
-KEYWORDS =[
-    'VAR'
-]
+KEYWORDS = ['VAR',
+            'AND',
+            'NOT',
+            'OR',
+            ]
+
 
 class Token:
-    def __init__(self, type_, value = None, pos_start=None, pos_end = None):
+    def __init__(self, type_, value=None, pos_start=None, pos_end=None):
         self.type = type_
         self.value = value
-        
+
         if pos_start:
             self.pos_start = pos_start.copy()
             self.pos_end = pos_start.copy()
             self.pos_end.advance()
-        
+
         if pos_end:
             self.pos_end = pos_end
-    
+
     def matches(self, type_, value):
         return self.type == type_ and self.value == value
-    
+
     def __repr__(self):
         if self.value:
             return f'{self.type}:{self.value}'
