@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-from EasyScript.EasyPyErrors import IllegalCharError
+from EasyScript.EasyPyErrors import *
 from EasyScript.EasyTokens import *
 from EasyScript.EasyPosition import *
 
@@ -92,50 +92,41 @@ class Lexer:
     def make_not_equals(self):
         pos_start = self.pos.copy()
         self.advance()
-        
         if self.current_char == '=':
             self.advance()
             return Token(TT_NE, pos_start=pos_start, pos_end=self.pos), None
-        
         self.advance()
-        return None, ExpectedCharError(
-            pos_start, self.pos,
-            "'=' (after '!')"
-        )
-    
+        return None, ExpectedCharError(pos_start, self.pos, "'=' (after '!')")
+
     def make_equals(self):
         tok_type = TT_EQ
         pos_start = self.pos.copy()
         self.advance()
-        
         if self.current_char == '=':
             self.advance()
             tok_type = TT_EE
 
         return Token(tok_type, None, pos_start, self.pos)
-    
+
     def make_less_than(self):
         tok_type = TT_LT
         pos_start = self.pos.copy()
         self.advance()
-        
         if self.current_char == '=':
             self.advance()
             tok_type = TT_LTE
 
         return Token(tok_type, None, pos_start, self.pos)
-    
+
     def make_greater_than(self):
         tok_type = TT_GT
         pos_start = self.pos.copy()
         self.advance()
-        
         if self.current_char == '=':
             self.advance()
             tok_type = TT_GTE
-
         return Token(tok_type, None, pos_start, self.pos)
-    
+
     def make_identifier(self):
         id_str = ''
         pos_start = self.pos.copy()

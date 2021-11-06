@@ -2,7 +2,6 @@
 from EasyScript.EasyTokens import *
 from EasyScript.EasyPyErrors import *
 from EasyScript.EasyNodes import *
-from EasyScript.EasyPyErrors import *
 
 
 class Parser:
@@ -45,7 +44,7 @@ class Parser:
             res.register_advancement()
             self.advance()
             expr = res.register(self.expr())
-            if res.error: 
+            if res.error:
                 return res
             if self.current_tok.type == TT_RPAREN:
                 res.register_advancement()
@@ -72,39 +71,43 @@ class Parser:
             res.register_advancement()
             self.advance()
             factor = res.register(self.factor())
-            if res.error: return res
+            if res.error:
+                return res
             return res.success(UnaryOpNode(tok, factor))
 
         return self.power()
 
     def term(self):
         return self.bin_op(self.factor, (TT_MUL, TT_DIV))
-    
+
     def arith_expr(self):
         return self.bin_op(self.term, (TT_PLUS, TT_MINUS))
-    
+
     def comp_expr(self):
         res = ParseResult()
-        
+
         if self.current_tok.matches(TT_KEYWORD, 'NOT'):
             op_tok = self.current_tok
             res.register_advancement()
             self.advance()
-            
+
             node = res.register(self.comp_expr())
             if res.error:
                 return res
             return res.success(UnaryOpNode(op_tok, node))
-        
-        node = res.register(self.bin_op(self.arith_expr, (TT_EE, TT_NE, TT_LT, TT_GT, TT_GTE, TT_LTE)))
-        
+
+        node = res.register(
+            self.bin_op(self.arith_expr,
+                        (TT_EE, TT_NE, TT_LT, TT_GT, TT_GTE, TT_LTE)))
+
         if res.error:
-            return res.failure(InvalidSyntaxError(
-                self.current_tok.pos_start, self.current_tok.pos_end,
-                "Expected int, float, identifier, '+', '-', '(', 'NOT'"))
-        
+            return res.failure(
+                InvalidSyntaxError(
+                    self.current_tok.pos_start, self.current_tok.pos_end,
+                    "Expected int, float, identifier, '+', '-', '(', 'NOT'"))
+
         return res.success(node)
-    
+
     def expr(self):
         res = ParseResult()
         if self.current_tok.matches(TT_KEYWORD, 'VAR'):
@@ -131,11 +134,14 @@ class Parser:
             self.advance()
             expr = res.register(self.expr())
 
-            if res.error: return res
+            if res.error:
+                return res
 
             return res.success(VarAssignNode(var_name, expr))
 
-        node = res.register(self.bin_op(self.comp_expr, ((TT_KEYWORD, 'AND'), (TT_KEYWORD, "OR"))))
+        node = res.register(
+            self.bin_op(self.comp_expr,
+                        ((TT_KEYWORD, 'AND'), (TT_KEYWORD, "OR"))))
 
         if res.error:
             return res.failure(
@@ -146,7 +152,7 @@ class Parser:
         return res.success(node)
 
     def bin_op(self, func_a, ops, func_b=None):
-        if func_b == None:
+        if func_b is None:
             func_b = func_a
         res = ParseResult()
         left = res.register(func_a())
@@ -157,7 +163,8 @@ class Parser:
             res.register_advancement()
             self.advance()
             right = res.register(func_b())
-            if res.error: return res
+            if res.error:
+                return res
             left = BinOpNode(left, op_tok, right)
 
         return res.success(left)
@@ -174,7 +181,8 @@ class ParseResult:
 
     def register(self, res):
         self.advance_count += res.advance_count
-        if res.error: self.error = res.error
+        if res.error:
+            self.error = res.error
         return res.node
 
     def success(self, node):
