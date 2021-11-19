@@ -1,3 +1,12 @@
+'''
+作者: __init__(PartyParrot)
+Github 地址: https://github.com/PartyParrot359
+Gitee 地址: https://gitee.com/JUST_SANS
+邮件: 2100970361@qq.com
+Date: 2021-11-19 14:38:39
+最后一次编辑人: __init__(PartyParrot)
+LastEditTime: 2021-11-19 14:38:39
+'''
 # -*- coding:utf-8 -*-
 import string
 
@@ -14,25 +23,25 @@ LETTERS_DIGITS = LETTERS + DIGITS
 
 # TOKEN
 
-TT_INT = 'INT'
-TT_FLOAT = 'FLOAT'
+TT_INT        = 'INT'
+TT_FLOAT      = 'FLOAT'
 TT_IDENTIFIER = 'IDENTIFIER'
-TT_KEYWORD = 'KEYWORD'
-TT_PLUS = 'PLUS'
-TT_MINUS = 'MINUS'
-TT_MUL = 'MUL'
-TT_DIV = 'DIV'
-TT_POW = 'POW'
-TT_EQ = 'EQ'
-TT_LPAREN = 'LPAREN'
-TT_RPAREN = 'RPAREN'
-TT_EE = 'EE'
-TT_NE = 'NE'
-TT_LT = 'LT'
-TT_GT = 'GT'
-TT_LTE = 'LTE'
-TT_GTE = 'GTE'
-TT_EOF = 'EOF'
+TT_KEYWORD    = 'KEYWORD'
+TT_PLUS       = 'PLUS'
+TT_MINUS      = 'MINUS'
+TT_MUL        = 'MUL'
+TT_DIV        = 'DIV'
+TT_POW        = 'POW'
+TT_EQ         = 'EQ'
+TT_LPAREN     = 'LPAREN'
+TT_RPAREN     = 'RPAREN'
+TT_EE         = 'EE'
+TT_NE         = 'NE'
+TT_LT         = 'LT'
+TT_GT         = 'GT'
+TT_LTE        = 'LTE'
+TT_GTE        = 'GTE'
+TT_EOF        = 'EOF'
 
 KEYWORDS = ['VAR',
             'AND',

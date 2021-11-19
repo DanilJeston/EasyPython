@@ -181,6 +181,8 @@ class ParseResult:
 
     def register(self, res):
         self.advance_count += res.advance_count
+        # print(res.advance_count)
+        # print("\n" + str(self.advance_count))
         if res.error:
             self.error = res.error
         return res.node

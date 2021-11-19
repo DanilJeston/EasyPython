@@ -7,11 +7,12 @@
 from EasyScript import *
 import sys
 import datetime
-# import platform
+import platform
 
 
 def shell():
-    exit_buttom_press = 0             # 记录Ctrl + C按下了几次
+    Ctrl_C_Press = 0             # 记录Ctrl + C按下了几次
+    Ctrl_Z_Press = 0           # 记录Ctrl + Z按下了几次
     release_months_dict = {
         '1': "Jan",
         '2': "Feb",
@@ -21,12 +22,12 @@ def shell():
         '6': "Jun",
         '7': "Jul",
         '8': "Aug",
-        '9': 'Sept',
+        '9': "Sept",
         '10': "Oct",
         '11': "Nov",
         '12': "Dec"
     }                                 # 创建月份字典
-    version = "1.1.0"                 # 版本
+    version = "0.1.1"                 # 版本
     release_months = 11               # 月份
     release_day = 6                   # 天
     release_year = 2021               # 年
@@ -46,14 +47,10 @@ def shell():
     start_help_info = '"help", "copyright"'
     # 输出启动信息↓
     print("""
-EasyPy(EasyPython) {version} ,Released in {date_time}, Run EasyPy on {system_version}.
+EasyPy(EasyPython) {version} ,Released in {date_time}, Run EasyPy on {system_version1}, {system_version2}.
 Type {start_help_info} for more information.
 Source Code:https://gitee.com/ky-studio/EasyPython
-    """.format(version=version,
-               date_time=release_date_time,
-               system_version=sys.platform,
-               start_help_info=start_help_info
-               ))
+    """.format(version=version, date_time=release_date_time, system_version1=platform.platform(), system_version2=sys.platform, start_help_info=start_help_info))
     while True:
         # 用try是为了检测Ctrl + C
         try:
@@ -68,18 +65,18 @@ Source Code:https://gitee.com/ky-studio/EasyPython
                 pass
             elif command == 'help':
                 # 如果输入help显示帮助文档
-                help_docs = """
-The help document is not completed
-"""
+                help_docs = "Sorry, The help document is not completed."
                 print(help_docs)
             elif command == 'copyright':
                 # 如果输入copyright，显示版权信息
                 author = "yps and __init__"
                 if datetime.datetime.now().year == 2021:
-                    year = ""
+                    year = "2021"
                 else:
-                    year = ' - ' + str(datetime.datetime.now().year)
-                print("Copyright © 2021{year} {author}. All rights reserved".format(year=year, author=author))  # 版权信息提示
+                    year = '2021 - ' + str(datetime.datetime.now().year)
+                print("Copyright © {year} , {author}. All rights reserved".format(year=year, author=author))  # 版权信息提示
+            elif command == 'rules':
+                pass
             else:
                 # 获取返回值与错误
                 result, error = run('<stdin>', command)
@@ -88,10 +85,19 @@ The help document is not completed
                     print(error.as_string())
                 else:
                     print(result)
+
         except KeyboardInterrupt:
-            if exit_buttom_press < 1:
+            if Ctrl_C_Press < 1:
                 print("\n\"Ctrl + C\" has been pressed. if you want exit, please press the key again.")
-                exit_buttom_press += 1
+                Ctrl_C_Press += 1
+            else:
+                print("\nGoodbye, Thank you for using.")
+                sys.exit()
+
+        except EOFError:
+            if Ctrl_Z_Press < 1:
+                print("\n\"Ctrl + Z\" has been pressed. if you want exit, please press the key again.")
+                Ctrl_Z_Press += 1
             else:
                 print("\nGoodbye, Thank you for using.")
                 sys.exit()
