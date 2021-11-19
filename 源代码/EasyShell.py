@@ -43,11 +43,11 @@ def shell():
     Ctrl_Z_Press = 0  # 记录Ctrl + Z按下了几次
     version = "0.1.2"  # 版本
     release_months = 11  # 月份
-    release_day = 6  # 天
+    release_day = 19  # 天
     release_year = 2021  # 年
-    release_hour = 16  # 小时
-    release_min = 26  # 分钟
-    release_sec = 40  # 秒
+    release_hour = 21  # 小时
+    release_min = 25  # 分钟
+    release_sec = 10  # 秒
     commit_hash_code = "25aab89" # 前七位哈希值
     release_date_time = get_release_time(release_year, release_months,
                                          release_day, release_hour,
