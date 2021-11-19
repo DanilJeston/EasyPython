@@ -48,7 +48,7 @@ def shell():
     release_hour = 16  # 小时
     release_min = 26  # 分钟
     release_sec = 40  # 秒
-    commit_hash_code = "d1cac8a" # 前七位哈希值
+    commit_hash_code = "25aab89" # 前七位哈希值
     release_date_time = get_release_time(release_year, release_months,
                                          release_day, release_hour,
                                          release_min, release_sec)
