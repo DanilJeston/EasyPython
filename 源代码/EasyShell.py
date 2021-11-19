@@ -41,14 +41,13 @@ def get_release_time(release_year, release_months, release_day, release_hour,
 def shell():
     Ctrl_C_Press = 0  # 记录Ctrl + C按下了几次
     Ctrl_Z_Press = 0  # 记录Ctrl + Z按下了几次
-    version = "0.1.2"  # 版本
+    version = "0.1.3"  # 版本
     release_months = 11  # 月份
     release_day = 19  # 天
     release_year = 2021  # 年
     release_hour = 21  # 小时
     release_min = 25  # 分钟
     release_sec = 10  # 秒
-    commit_hash_code = "25aab89" # 前七位哈希值
     release_date_time = get_release_time(release_year, release_months,
                                          release_day, release_hour,
                                          release_min, release_sec)
@@ -57,7 +56,7 @@ def shell():
     start_help_info = '"help", "copyright"'
     # 输出启动信息↓
     print(f"""
-EasyPy(EasyPython) {version} ({commit_hash_code}:{version}), Released in {release_date_time}, Run EasyPy on {sys.platform}, {platform.platform()}.
+EasyPy(EasyPython) v{version} , Released in {release_date_time}, Run EasyPy on {sys.platform}, {platform.platform()}.
 Type {start_help_info} for more information.
 Source Code:https://gitee.com/ky-studio/EasyPython
     """)
