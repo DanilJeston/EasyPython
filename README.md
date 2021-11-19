@@ -1,3 +1,12 @@
+<!--
+ * @作者: __init__(PartyParrot)
+ * @Github 地址: https://github.com/PartyParrot359
+ * @Gitee 地址: https://gitee.com/JUST_SANS
+ * @邮件: 2100970361@qq.com
+ * @Date: 2021-11-19 20:32:21
+ * @最后一次编辑人: __init__(PartyParrot)
+ * @LastEditTime: 2021-11-19 20:32:21
+-->
 # EasyPython
 #### 介绍
 顾名思义，简单的Python
@@ -7,10 +16,7 @@
 
 
 #### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
+在发行版中下载程序，打开即可。
 
 #### 使用说明
 
