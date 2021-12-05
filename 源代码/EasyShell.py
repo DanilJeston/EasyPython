@@ -6,9 +6,9 @@
 # from EasyCode import *
 from EasyScript import *
 import sys
+import yaml
 import datetime
 import platform
-
 
 def get_release_time(release_year, release_months, release_day, release_hour,
                      release_min, release_sec):
@@ -60,6 +60,13 @@ EasyPy(EasyPython) v{version} , Released in {release_date_time}, Run EasyPy on {
 Type {start_help_info} for more information.
 Source Code:https://gitee.com/ky-studio/EasyPython
     """)
+    try:
+        with open("config.yml") as f:
+            SETTINGS = yaml.safe_load(f.read())
+            LANGUAGE = SETTINGS["language"]
+    except FileNotFoundError:
+        with open("config.yml", 'w') as f:
+            f.write(yaml.dump({'language': 'en-us'}))
     while True:
         # 用try是为了检测Ctrl + C
         try:
@@ -74,7 +81,7 @@ Source Code:https://gitee.com/ky-studio/EasyPython
                 pass
             elif command == 'help':
                 # 如果输入help显示帮助文档
-                with open("EasyScript/help_doc.txt") as f:
+                with open(f"EasyScript/HelpDoc/{LANGUAGE}.txt") as f:
                     print(f.read())
                     f.close()
             elif command == 'copyright':
