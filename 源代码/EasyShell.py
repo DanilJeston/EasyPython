@@ -41,12 +41,12 @@ def get_release_time(release_year, release_months, release_day, release_hour,
 def shell():
     Ctrl_C_Press = 0  # 记录Ctrl + C按下了几次
     Ctrl_Z_Press = 0  # 记录Ctrl + Z按下了几次
-    version = "0.1.3"  # 版本
-    release_months = 11  # 月份
-    release_day = 19  # 天
+    version = "0.1.4"  # 版本
+    release_months = 12  # 月份
+    release_day = 15  # 天
     release_year = 2021  # 年
-    release_hour = 21  # 小时
-    release_min = 25  # 分钟
+    release_hour = 12  # 小时
+    release_min = 11  # 分钟
     release_sec = 10  # 秒
     release_date_time = get_release_time(release_year, release_months,
                                          release_day, release_hour,
@@ -74,8 +74,9 @@ Source Code:https://gitee.com/ky-studio/EasyPython
                 pass
             elif command == 'help':
                 # 如果输入help显示帮助文档
-                help_docs = "Sorry, The help document is not completed."
-                print(help_docs)
+                with open("EasyScript/help_doc.txt") as f:
+                    print(f.read())
+                    f.close()
             elif command == 'copyright':
                 # 如果输入copyright，显示版权信息
                 author = "yps and __init__"
@@ -83,8 +84,9 @@ Source Code:https://gitee.com/ky-studio/EasyPython
                     year = "2021"
                 else:
                     year = '2021 - ' + str(datetime.datetime.now().year)
-                print("Copyright © {year} , {author}. All rights reserved".
-                      format(year=year, author=author))  # 版权信息提示
+                print("Copyright © {year} , {author}. Some rights reserved".format(
+                    year=year, author=author
+                    ))  # 版权信息提示
             elif command == 'rules':
                 pass
             else:
@@ -93,7 +95,7 @@ Source Code:https://gitee.com/ky-studio/EasyPython
                 # 如果错误值有内容输出错误值，反之输出返回值
                 if error:
                     print(error.as_string())
-                else:
+                elif result:
                     print(result)
 
         except KeyboardInterrupt:

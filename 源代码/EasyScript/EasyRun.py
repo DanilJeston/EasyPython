@@ -20,6 +20,7 @@ global_symbol_table = SymbolTable()
 global_symbol_table.set('NULL', Number(0))   # 设置NULL的值为0
 global_symbol_table.set('TRUE', Number(1))   # 设置TRUE的值为1
 global_symbol_table.set('FALSE', Number(0))  # 设置FALSE的值为0
+releaseMode = True
 
 
 # 创建函数 run
@@ -30,7 +31,8 @@ def run(fn, text):
     tokens, error = lexers.make_tokens()
     if error:
         return None, error
-    print(tokens)
+    if not releaseMode:
+        print(tokens)
 
     # 实例化 parser
     parser = Parser(tokens)

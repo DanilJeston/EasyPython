@@ -8,3 +8,4 @@ from EasyScript.EasyParser import *
 from EasyScript.EasyStringWithArrows import *
 from EasyScript.EasyInterpreter import *
 from EasyScript.EasySymbolTable import *
+form EasyScript.EasyCode import *

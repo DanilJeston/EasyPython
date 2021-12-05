@@ -93,6 +93,9 @@ class Number:
             return Number(int(self.value and other.value
                               )).set_context(self.context), None
 
+    def is_true(self):
+        return self.value != 0
+
     def ored_by(self, other):
         if isinstance(other, Number):
             return Number(int(self.value or other.value
