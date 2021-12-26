@@ -80,9 +80,24 @@ class Interpreter:
         return RTResult().success(
             Number(node.tok.value).set_context(context).set_pos(
                 node.pos_start, node.pos_end))
-    
+
     def visit_StringNode(self, node, context):
-        return RTResult().success(String(node.tok.value).set_context(context).set_pos(node.pos_start, node.pos_end))
+        return RTResult().success(
+            String(node.tok.value).set_context(context).set_pos(
+                node.pos_start, node.pos_end))
+
+    def visit_ListNode(self, node, context):
+        res = RTResult()
+        elements = []
+
+        for element_node in node.element_nodes:
+            elements.append(res.register(self.visit(element_node, context)))
+            if res.error:
+                return res
+
+        return res.success(
+            List(elements).set_context(context).set_pos(
+                node.pos_start, node.pos_end))
 
     def visit_BinOpNode(self, node, context):
         # 实例化运行时
@@ -175,6 +190,7 @@ class Interpreter:
 
     def visit_ForNode(self, node, context):
         res = RTResult()
+        elements = []
 
         start_value = res.register(self.visit(node.start_value_node, context))
         if res.error:
@@ -203,14 +219,17 @@ class Interpreter:
             context.symbol_table.set(node.var_name_tok.value, Number(i))
             i += step_value.value
 
-            res.register(self.visit(node.body_node, context))
+            elements.append(res.register(self.visit(node.body_node, context)))
             if res.error:
                 return res
 
-        return res.success(None)
+        return res.success(
+            List(elements).set_context(context).set_pos(
+                node.pos_start, node.pos_end))
 
     def visit_WhileNode(self, node, context):
         res = RTResult()
+        elements = []
 
         while True:
             condition = res.register(self.visit(node.condition_node, context))
@@ -221,11 +240,13 @@ class Interpreter:
             if not condition.is_true():
                 break
 
-            res.register(self.visit(node.body_node, context))
+            elements.append(res.register(self.visit(node.body_node, context)))
             if res.error:
                 return res
 
-        return res.success(None)
+        return res.success(
+            List(elements).set_context(context).set_pos(
+                node.pos_start, node.pos_end))
 
     def visit_FuncDefNode(self, node, context):
         res = RTResult()

@@ -56,13 +56,19 @@ class Lexer:
             elif self.current_char == ')':
                 tokens.append(Token(TT_RPAREN, pos_start=self.pos))
                 self.advance()
+            elif self.current_char == '[':
+                tokens.append(Token(TT_LSQUARE, pos_start=self.pos))
+                self.advance()
+            elif self.current_char == ']':
+                tokens.append(Token(TT_RSQUARE, pos_start=self.pos))
+                self.advance()
             elif self.current_char == '!':
                 tok, error = self.make_not_equals()
                 if error:
                     return [], error
                 tokens.append(tok)
             # elif self.current_char == ':':
-                # tokens.append(Token(TT_ARROW, pos_start=self.pos))
+            # tokens.append(Token(TT_ARROW, pos_start=self.pos))
             elif self.current_char == '=':
                 tokens.append(self.make_equals())
             elif self.current_char == '<':
@@ -81,21 +87,20 @@ class Lexer:
 
         tokens.append(Token(TT_EOF, pos_start=self.pos))
         return tokens, None
-    
+
     def make_string(self, type_):
         string = ""
         pos_start = self.pos.copy()
         escape_character = False
         self.advance()
-        
-        escape_characters = {
-            'n': '\n',
-            't': '\t'
-        }
-        
-        while self.current_char is not None and (self.current_char != type_ or escape_character):
+
+        escape_characters = {'n': '\n', 't': '\t'}
+
+        while self.current_char is not None and (self.current_char != type_
+                                                 or escape_character):
             if escape_character:
-                string += escape_characters.get(self.current_char, self.current_char)
+                string += escape_characters.get(self.current_char,
+                                                self.current_char)
             else:
                 if self.current_char == '\\':
                     escape_character = True
@@ -103,7 +108,7 @@ class Lexer:
                     string += self.current_char
             self.advance()
             escape_character = False
-        
+
         self.advance()
         return Token(TT_STRING, string, pos_start, self.pos)
 

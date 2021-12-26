@@ -213,7 +213,7 @@ class Parser:
                         InvalidSyntaxError(
                             self.current_tok.pos_start,
                             self.current_tok.pos_end,
-                            "Expected ')', 'define', 'if', 'for', 'while', 'function', int, float, identifier"
+                            "Expected ')', 'define', 'if', 'for', 'while', 'function', int, float, identifier, '+', '-', '(', '[' or 'not'"
                         ))
                 while self.current_tok.type == TT_COMMA:
                     res.register_advancement()
@@ -231,6 +231,48 @@ class Parser:
                 self.advance()
             return res.success(CallNode(atom, arg_nodes))
         return res.success(atom)
+
+    def list_expr(self):
+        res = ParseResult()
+        element_nodes = []
+        pos_start = self.current_tok.pos_start.copy()
+
+        if self.current_tok.type != TT_LSQUARE:
+            return res.failure(
+                InvalidSyntaxError(self.current_tok.pos_start,
+                                   self.current_tok.pos_end, "Expected '['"))
+
+        res.register_advancement()
+        self.advance()
+
+        if self.current_tok.type == TT_RSQUARE:
+            res.register_advancement()
+            self.advance()
+        else:
+            element_nodes.append(res.register(self.expr()))
+            if res.error:
+                return res.failure(
+                    InvalidSyntaxError(
+                        self.current_tok.pos_start, self.current_tok.pos_end,
+                        "Expected ']', 'define', 'if', 'for', 'while', 'function', int, float, identifier, '+', '-', '(', '[' or 'not'"
+                    ))
+            while self.current_tok.type == TT_COMMA:
+                res.register_advancement()
+                self.advance()
+                element_nodes.append(res.register(self.expr()))
+                if res.error:
+                    return res
+
+            if self.current_tok.type != TT_RSQUARE:
+                return res.failure(
+                    InvalidSyntaxError(self.current_tok.pos_start,
+                                       self.current_tok.pos_end,
+                                       "Expected ',' or ']'"))
+            res.register_advancement()
+            self.advance()
+        return res.success(
+            ListNode(element_nodes, pos_start,
+                     self.current_tok.pos_end.copy()))
 
     def atom(self):
         res = ParseResult()
@@ -266,6 +308,12 @@ class Parser:
                     InvalidSyntaxError(tok.pos_start, tok.pos_end,
                                        "Expected ')'"))
 
+        elif tok.type == TT_LSQUARE:
+            list_expr = res.register(self.list_expr())
+            if res.error:
+                return res
+            return res.success(list_expr)
+
         elif tok.matches(TT_KEYWORD, 'if'):
             if_expr = res.register(self.if_expr())
             if res.error:
@@ -293,7 +341,8 @@ class Parser:
         return res.failure(
             InvalidSyntaxError(
                 tok.pos_start, tok.pos_end,
-                "Expected int, float, identifier, '+', '-', '(', 'if', 'for', 'while' or 'function'"))
+                "Expected int, float, identifier, '+', '-', '(', '[', 'if', 'for', 'while' or 'function'"
+            ))
 
     def power(self):
         return self.bin_op(self.call, (TT_POW, ), self.factor)
@@ -339,7 +388,8 @@ class Parser:
             return res.failure(
                 InvalidSyntaxError(
                     self.current_tok.pos_start, self.current_tok.pos_end,
-                    "Expected int, float, identifier, '+', '-', '(', 'not'"))
+                    "Expected int, float, identifier, '+', '-', '(', '[' or 'not'"
+                ))
 
         return res.success(node)
 
@@ -382,7 +432,7 @@ class Parser:
             return res.failure(
                 InvalidSyntaxError(
                     self.current_tok.pos_start, self.current_tok.pos_end,
-                    "Excepted 'define', 'if', 'for', 'while', 'function', int, float, identifier, '+', '-', '(' or 'not'"
+                    "Excepted 'define', 'if', 'for', 'while', 'function', int, float, identifier, '+', '-', '(', '[' or 'not'"
                 ))
 
         return res.success(node)

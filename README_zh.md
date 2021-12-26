@@ -12,8 +12,12 @@
 -->
 # EasyPython
 [Gitee](https://gitee.com/ky-studio/EasyPython)
+
 [Github](https://github.com/PartyParrot359/EasyPython)
+
 [English](./README.md)
+
+需要帮助？点击这里：[帮助文档](./HELP_zh.md)
 #### 介绍
 正如名字一样，一个易用易学并用Python开发的程序语言
 
@@ -23,32 +27,6 @@
 
 <!-- #### 安装教程 -->
 <!-- 在发行版中下载程序，打开即可。 -->
-#### 使用教程
-运算:
-    使用: <整数型/浮点型/变量...> +, -, *, /, ^ <整数型/浮点型/变量...>
-    效果: 对多个数进行数学运算
-    例子: 
-        >>> 9 * 9
-            81
-        >>> 5 + 7
-            12
-        >>> 10 - 10
-            0
 
-
-变量:
-    使用: define <变量名> = <True/False/整数型/浮点型...> or define <变量名> = <if语句>
-    效果: 将一个值储存到变量中
-    例子: 
-        >>> define age = 18
-        >>> define x = define y = define z = 9
-        >>> define x = age * y
-
-逻辑判断:
-    使用: <True/False/整数型/浮点型/变量...> ==, !=, <, >, <=, >= <True/False/整数型/浮点型/变量...>
-    效果: 对比并返回True或False 
-
-IF sentence:
-    Use: IF <TRUE/FALSE/INT/FLOAT...> ==, !=, <, >, <=, >=
 
 
