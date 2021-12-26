@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+# -*- coding:utf-8 -*-
+from EasyScript import *
 
 
 class Position:
@@ -9,7 +10,7 @@ class Position:
         self.fn = fn
         self.ftxt = ftxt
 
-    def read_next_char(self, current_char):
+    def advance(self, current_char=None):
         self.idx += 1
         self.col += 1
 

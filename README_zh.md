@@ -13,14 +13,12 @@
 # EasyPython
 [Gitee](https://gitee.com/ky-studio/EasyPython)
 [Github](https://github.com/PartyParrot359/EasyPython)
-[Chinese](./README_zh.md)
+[Chinese](./README_ZH-CN.md)
+#### 介绍
+正如名字一样，一个易用易学并用Python开发的程序语言
 
-#### Introduction
-Other Name: SimPython(SimplePython)
-EasyPython, as the name suggests, is an easy to learn and easy to use programming language developed in Python.
-
-#### How to use?
-
+#### 如何使用？
+准备工具：Python 3.x版本，
 
 
 #### 安装教程
