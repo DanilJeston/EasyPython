@@ -53,6 +53,11 @@ KEYWORDS = [
     'step', 'while', 'function'
 ]
 
+BuiltInFunctionList = [
+    'Null', 'True', 'False', 'println', 'printf', 'str', 'type', 'int', 'input',
+    'clear', 'is_num', 'is_str', 'is_list', 'is_func', 'append', 'pop', 'extend'
+]
+
 
 class Token:
     def __init__(self, type_, value=None, pos_start=None, pos_end=None):

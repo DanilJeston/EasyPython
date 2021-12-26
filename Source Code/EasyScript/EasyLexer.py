@@ -96,18 +96,18 @@ class Lexer:
 
         escape_characters = {'n': '\n', 't': '\t'}
 
-        while self.current_char is not None and (self.current_char != type_
-                                                 or escape_character):
+        while self.current_char is not None and (self.current_char != type_ or escape_character):
             if escape_character:
                 string += escape_characters.get(self.current_char,
                                                 self.current_char)
+                escape_character = False
             else:
                 if self.current_char == '\\':
                     escape_character = True
                 else:
                     string += self.current_char
             self.advance()
-            escape_character = False
+            
 
         self.advance()
         return Token(TT_STRING, string, pos_start, self.pos)

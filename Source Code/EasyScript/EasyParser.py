@@ -405,6 +405,15 @@ class Parser:
                                        self.current_tok.pos_end,
                                        "Expected identifier"))
 
+            if self.current_tok.value in KEYWORDS or self.current_tok.value in BuiltInFunctionList:
+                pos_start = self.current_tok.pos_start.copy()
+                res.register_advancement()
+                self.advance()
+                return res.failure(
+                    InvalidSyntaxError(pos_start,
+                                       self.current_tok.pos_start,
+                                       "Identifier is keywords."))
+
             var_name = self.current_tok
             res.register_advancement()
             self.advance()
@@ -448,6 +457,17 @@ class Parser:
 
         res.register_advancement()
         self.advance()
+        
+        if self.current_tok.value in KEYWORDS or self.current_tok.value in BuiltInFunctionList:
+            pos_start = self.current_tok.pos_start.copy()
+            res.register_advancement()
+            self.advance()
+            pos_end = self.current_tok.pos_end.copy()
+            pos_end.col = pos_end.col - 1
+            return res.failure(
+                InvalidSyntaxError(pos_start,
+                                   pos_end,
+                                   "Identifier is keywords."))
 
         if self.current_tok.type == TT_IDENTIFIER:
             # return res.failure(self.current_tok.pos_start, self.current_tok.pos_end, )

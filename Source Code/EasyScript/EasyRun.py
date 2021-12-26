@@ -18,9 +18,23 @@ import yaml
 
 # 生成变量表
 global_symbol_table = SymbolTable()
-global_symbol_table.set('Null', Number(0))   # 设置NULL的值为0
-global_symbol_table.set('True', Number(1))   # 设置TRUE的值为1
-global_symbol_table.set('False', Number(0))  # 设置FALSE的值为0
+global_symbol_table.set('Null', Number.null)   # 设置NULL的值为0
+global_symbol_table.set('True', Number.true)   # 设置TRUE的值为1
+global_symbol_table.set('False', Number.false)  # 设置FALSE的值为0
+global_symbol_table.set('println', BuiltInFunction.println)
+global_symbol_table.set('printf', BuiltInFunction.printf)
+global_symbol_table.set('str', BuiltInFunction.str)
+global_symbol_table.set('type', BuiltInFunction.type)
+global_symbol_table.set('int', BuiltInFunction.int)
+global_symbol_table.set('input', BuiltInFunction.input)
+global_symbol_table.set('clear', BuiltInFunction.clear)
+global_symbol_table.set('is_num', BuiltInFunction.is_number)
+global_symbol_table.set('is_str', BuiltInFunction.is_string)
+global_symbol_table.set('is_list', BuiltInFunction.is_list)
+global_symbol_table.set('is_func', BuiltInFunction.is_function)
+global_symbol_table.set('append', BuiltInFunction.append)
+global_symbol_table.set('pop', BuiltInFunction.pop)
+global_symbol_table.set('extend', BuiltInFunction.extend)
 releaseMode = yaml.safe_load(open("EasyScript/config.yml").read())['options']['release-mode']
 
 

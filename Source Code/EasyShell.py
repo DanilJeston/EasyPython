@@ -73,8 +73,9 @@ MINOR_VERSION = config['options']['minor-version']
 PATCH_VERSION = config['options']['patch-version']
 
 
-def get_release_time(release_year, release_months, release_day, release_hour,
-                     release_min, release_sec):
+def get_release_time():
+    with open("EasyScript/config.yml") as f:
+        config = yaml.safe_load(f.read())
     release_months_dict = {
         '1': "Jan",
         '2': "Feb",
@@ -91,33 +92,20 @@ def get_release_time(release_year, release_months, release_day, release_hour,
     }  # 创建月份字典
 
     # 发布日期↓
-    release_date_time = "{months} {day} {year}, {hour}:{min}:{sec}".format(
-        months=release_months_dict[str(release_months)],
-        day=str(release_day),
-        year=str(release_year),
-        hour=str(release_hour),
-        min=str(release_min),
-        sec=str(release_sec))
+    release_date_time = f"""\
+{str(config["release-datetime"]['release_year'])} {release_months_dict[str(config["release-datetime"]['release_month'])]} {str(config["release-datetime"]['release_day'])}, {str(config['release-datetime']['release_hour'])}:{str(config['release-datetime']['release_min'])}:{str(config['release-datetime']['release_sec'])}"""
     return release_date_time
 
 
 def shell(name="<stdin>", RunFile=False, command=""):
     version = f"{str(MAJAR_VERSION)}.{str(MINOR_VERSION)}.{str(PATCH_VERSION)}"
-    release_months = 12  # 月份
-    release_day = 15  # 天
-    release_year = 2021  # 年
-    release_hour = 12  # 小时
-    release_min = 11  # 分钟
-    release_sec = 10  # 秒
-    release_date_time = get_release_time(release_year, release_months,
-                                         release_day, release_hour,
-                                         release_min, release_sec)
+    release_date_time = get_release_time()
     # 启动时显示的帮助信息
     start_help_info = '"help", "copyright"'
     # 输出启动信息
     if not RunFile:
         print(
-            f"EasyPy(EasyPython) v{version}, (Released in {release_date_time}).\nRun EasyPy on {sys.platform}, {platform.platform()}.\nType {start_help_info} for more information.\nSource Code:https://gitee.com/ky-studio/EasyPython"
+            f"EasyPy(EasyPython) v{version}, (Released in {release_date_time}). \nRun EasyPy on {sys.platform}, {platform.platform()}.\nType {start_help_info} for more information.\nSource Code:https://gitee.com/ky-studio/EasyPython"
         )
     # 循环
     while True:
