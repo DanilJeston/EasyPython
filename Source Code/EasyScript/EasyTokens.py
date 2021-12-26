@@ -41,9 +41,14 @@ TT_LT = 'LT'
 TT_GT = 'GT'
 TT_LTE = 'LTE'
 TT_GTE = 'GTE'
+TT_COMMA = 'COMMA'
+TT_ARROW = 'ARROW'
 TT_EOF = 'EOF'
 
-KEYWORDS = ['define', 'and', 'or', 'not', 'if', 'then', 'elif', 'else']
+KEYWORDS = [
+    'define', 'and', 'or', 'not', 'if', 'then', 'elif', 'else', 'for', 'to',
+    'step', 'while', 'function'
+]
 
 
 class Token:

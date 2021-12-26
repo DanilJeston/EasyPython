@@ -14,13 +14,14 @@ Operation:
 Variable:
     Use: VAR <name> = <TRUE/FALSE/INT/FLOAT...> or VAR <name> = <IF Sentence, VAR Sentence...>
     Effect: To store a quantity in a variable
-    Example: VAR age = 18
-             VAR x = VAR y = VAR z = 9
-             VAR x = age * y
+    Example: define age = 18
+             define x = define y = define z = 9
+             define x = age * y
 
 Logical judgment:
     Use: <TRUE/FALSE/INT/FLOAT...> ==, !=, <, >, <=, >= <TRUE/FALSE/INT/FLOAT...>
     Effect: Determine and return 'TRUE' or 'FALSE'
+    Example: 
 
 IF sentence:
     Use: IF <TRUE/FALSE/INT/FLOAT...> ==, !=, <, >, <=, >=

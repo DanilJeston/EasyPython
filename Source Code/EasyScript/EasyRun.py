@@ -17,9 +17,9 @@ from EasyScript.EasySymbolTable import *
 
 # 生成变量表
 global_symbol_table = SymbolTable()
-global_symbol_table.set('NULL', Number(0))   # 设置NULL的值为0
-global_symbol_table.set('TRUE', Number(1))   # 设置TRUE的值为1
-global_symbol_table.set('FALSE', Number(0))  # 设置FALSE的值为0
+global_symbol_table.set('Null', Number(0))   # 设置NULL的值为0
+global_symbol_table.set('True', Number(1))   # 设置TRUE的值为1
+global_symbol_table.set('False', Number(0))  # 设置FALSE的值为0
 releaseMode = False
 
 

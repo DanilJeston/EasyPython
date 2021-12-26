@@ -112,16 +112,13 @@ def shell(name="<stdin>", RunFile=False, command=""):
     release_date_time = get_release_time(release_year, release_months,
                                          release_day, release_hour,
                                          release_min, release_sec)
-    # start_help_info = '"help", "copyright", "credits" or "license"'
-    # 启动时显示的帮助信息↓
+    # 启动时显示的帮助信息
     start_help_info = '"help", "copyright"'
-    # 输出启动信息↓
-    print(f"""
-EasyPy(EasyPython) v{version}, (Released in {release_date_time}).
-Run EasyPy on {sys.platform}, {platform.platform()}.
-Type {start_help_info} for more information.
-Source Code:https://gitee.com/ky-studio/EasyPython
-    """)
+    # 输出启动信息
+    if not RunFile:
+        print(
+            f"EasyPy(EasyPython) v{version}, (Released in {release_date_time}).\nRun EasyPy on {sys.platform}, {platform.platform()}.\nType {start_help_info} for more information.\nSource Code:https://gitee.com/ky-studio/EasyPython"
+        )
     # 循环
     while True:
         # 获取用户输入信息
@@ -133,19 +130,20 @@ Source Code:https://gitee.com/ky-studio/EasyPython
             # 退出并打印信息
             sys.exit("Good bye, Thanks for using.")
 
-        if command == '':
+        elif command == '' or command == '\n':
             pass
 
-        if command == 'copyright':
+        elif command == 'copyright':
             author = "yps and __init__"
             if datetime.datetime.now().year == 2021:
                 year = "2021"
             else:
                 year = '2021 - ' + str(datetime.datetime.now().year)
-            print("Copyleft © {year} , {author}. Some rights reserved".format(year=year, author=author))  # 版权信息提示
+            print("Copyleft © {year} , {author}. Some rights reserved".format(
+                year=year, author=author))  # 版权信息提示
 
-        # 获取返回值与错误
         else:
+            # 获取返回值与错误
             result, error = run(name, command)
 
             # 如果错误有具体内容

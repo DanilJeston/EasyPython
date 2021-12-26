@@ -13,36 +13,42 @@
 # EasyPython
 [Gitee](https://gitee.com/ky-studio/EasyPython)
 [Github](https://github.com/PartyParrot359/EasyPython)
-[Chinese](./README_ZH-CN.md)
+[English](./README.md)
 #### 介绍
 正如名字一样，一个易用易学并用Python开发的程序语言
 
-#### 如何使用？
-准备工具：Python 3.x版本，
+<!-- #### 如何使用？ -->
+<!-- 准备工具：Python 3.7以上版本，Pyinstaller -->
 
 
-#### 安装教程
-在发行版中下载程序，打开即可。
-
-#### 使用说明
-
-1.  直接运行！不要怂！
-2.  大喊“妈！”
-3.  大喊“爸！”
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+<!-- #### 安装教程 -->
+<!-- 在发行版中下载程序，打开即可。 -->
+#### 使用教程
+运算:
+    使用: <整数型/浮点型/变量...> +, -, *, /, ^ <整数型/浮点型/变量...>
+    效果: 对多个数进行数学运算
+    例子: 
+        >>> 9 * 9
+            81
+        >>> 5 + 7
+            12
+        >>> 10 - 10
+            0
 
 
-#### 特技
+变量:
+    使用: define <变量名> = <True/False/整数型/浮点型...> or define <变量名> = <if语句>
+    效果: 将一个值储存到变量中
+    例子: 
+        >>> define age = 18
+        >>> define x = define y = define z = 9
+        >>> define x = age * y
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+逻辑判断:
+    使用: <True/False/整数型/浮点型/变量...> ==, !=, <, >, <=, >= <True/False/整数型/浮点型/变量...>
+    效果: 对比并返回True或False 
+
+IF sentence:
+    Use: IF <TRUE/FALSE/INT/FLOAT...> ==, !=, <, >, <=, >=
+
+

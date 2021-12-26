@@ -1,0 +1,2 @@
+define a = 1
+for i = 1 to 6 then define a = a * i

@@ -23,7 +23,7 @@ class Interpreter:
         node: 提供节点，获取 __name__ 信息
         context: 上下文
         """
-        method_name = f'visit_{type(node).__name__}'               # 定义 method_name
+        method_name = f'visit_{type(node).__name__}'  # 定义 method_name
         # 从 self 类中寻找 method_name ，如果存在执行，反之调用 no_visit_method
         method = getattr(self, method_name, self.no_visit_method)
         return method(node, context)
@@ -169,3 +169,92 @@ class Interpreter:
                 return res
             return res.success(else_value)
         return res.success(None)
+
+    def visit_ForNode(self, node, context):
+        res = RTResult()
+
+        start_value = res.register(self.visit(node.start_value_node, context))
+        if res.error:
+            return res
+
+        end_value = res.register(self.visit(node.end_value_node, context))
+        if res.error:
+            return res
+
+        if node.step_value_node:
+            step_value = res.register(self.visit(node.step_value_node,
+                                                 context))
+            if res.error:
+                return res
+        else:
+            step_value = Number(1)
+
+        i = start_value.value
+
+        if step_value.value >= 0:
+            condition = lambda: i < end_value.value
+        else:
+            condition = lambda: i > end_value.value
+
+        while condition():
+            context.symbol_table.set(node.var_name_tok.value, Number(i))
+            i += step_value.value
+
+            res.register(self.visit(node.body_node, context))
+            if res.error:
+                return res
+
+        return res.success(None)
+
+    def visit_WhileNode(self, node, context):
+        res = RTResult()
+
+        while True:
+            condition = res.register(self.visit(node.condition_node, context))
+
+            if res.error:
+                return res
+
+            if not condition.is_true():
+                break
+
+            res.register(self.visit(node.body_node, context))
+            if res.error:
+                return res
+
+        return res.success(None)
+
+    def visit_FuncDefNode(self, node, context):
+        res = RTResult()
+
+        func_name = node.var_name_tok.value if node.var_name_tok else None
+        body_node = node.body_node
+        arg_names = [arg_name.value for arg_name in node.arg_name_toks]
+        func_value = Function(func_name, body_node,
+                              arg_names).set_context(context).set_pos(
+                                  node.pos_start, node.pos_end)
+
+        if node.var_name_tok:
+            context.symbol_table.set(func_name, func_value)
+
+        return res.success(func_value)
+
+    def visit_CallNode(self, node, context):
+        res = RTResult()
+        args = []
+
+        value_to_call = res.register(self.visit(node.node_to_call, context))
+        if res.error:
+            return res
+        value_to_call = value_to_call.copy().set_pos(node.pos_start,
+                                                     node.pos_end)
+
+        for arg_node in node.arg_nodes:
+            args.append(res.register(self.visit(arg_node, context)))
+            if res.error:
+                return res
+
+        return_value = res.register(value_to_call.execute(args))
+        if res.error:
+            return res
+        return res.success(return_value)

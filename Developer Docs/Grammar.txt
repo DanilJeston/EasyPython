@@ -1,5 +1,5 @@
 expr                    : KEYWORD:VAR IDENTIFIER EQ expr
-                        : comp-expr ((KEYWORD:AND|KEYWORD:OR) arith-expr)*
+                        : comp-expr ((KEYWORD:and|KEYWORD:or) arith-expr)*
 
 comp_expr               : NOT comp-expr
                         : arith-expr ((EE|LE|GT|LTE|GTE) arith-expr)*
@@ -11,12 +11,26 @@ term                    : factor ((MUL|DIV) factor)*
 factor                  : (PLUS|MINUS) factor
                         : power
 
-power                   : atom (POW factor)*
+power                   : call (POW factor)*
+
+call                    : atom (LPAREN (expr (COMMA expr)*)? RPAREN)?
 
 atom                    : INT|FLOAT|IDENTIFIER
                         : LPAREN expr RPAREN
                         : if-expr
+                        : for-expr
+                        : while-expr
+                        : func-def
 
-if-expr                 : KEYWORD:IF expr KEYWORD:THEN expr
-                        : (KEYWORD:ELIF expr KEYWORD:THEN expr)
-                        : (KEYWORD:ELSE exor)?
+if-expr                 : KEYWORD:if expr KEYWORD:then expr
+                        : (KEYWORD:elif expr KEYWORD:then expr)
+                        : (KEYWORD:else exor)?
+
+for-expr                : KEYWORD:for IDENTIFIER EQ expr KEYWORD:to expr
+                          (KEYWORD:step expr)? KEYWORD:then expr
+
+while-expr              : KEYWORD:while expr keyword:then expr
+
+func-def                : KEYWORD:function IDENTIFIER?
+                          LPAREN (IDENTIFIER (COMMA IDENTIFIER)*)? RPAREN
+                          ARROW expr
