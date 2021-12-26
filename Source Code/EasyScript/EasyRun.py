@@ -14,13 +14,14 @@ from EasyScript.EasyParser import *
 from EasyScript.EasyInterpreter import *
 from EasyScript.EasyContext import *
 from EasyScript.EasySymbolTable import *
+import yaml
 
 # 生成变量表
 global_symbol_table = SymbolTable()
 global_symbol_table.set('Null', Number(0))   # 设置NULL的值为0
 global_symbol_table.set('True', Number(1))   # 设置TRUE的值为1
 global_symbol_table.set('False', Number(0))  # 设置FALSE的值为0
-releaseMode = False
+releaseMode = yaml.safe_load(open("EasyScript/config.yml").read())['options']['release-mode']
 
 
 # 创建函数 run

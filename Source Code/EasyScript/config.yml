@@ -1,4 +1,5 @@
 options:
+  release-mode: true
   fix-move-keys: true
   language: en-us
   majar-version: 0
