@@ -14,27 +14,44 @@ from EasyScript.EasyParser import *
 from EasyScript.EasyInterpreter import *
 from EasyScript.EasyContext import *
 from EasyScript.EasySymbolTable import *
+from EasyScript.EasyTokens import *
 import yaml
+
+
+def SetGlobalSymbol(name, value, IsBuiltInFunction=False):
+    global global_symbol_table
+    if IsBuiltInFunction:
+        global BuiltInFunctionList
+        global_symbol_table.set(name, value)
+        BuiltInFunctionList.append(name)
+    else:
+        global BuiltInIdentifierList
+        global_symbol_table.set(name, value)
+        BuiltInIdentifierList.append(name)
 
 # 生成变量表
 global_symbol_table = SymbolTable()
-global_symbol_table.set('Null', Number.null)   # 设置NULL的值为0
-global_symbol_table.set('True', Number.true)   # 设置TRUE的值为1
-global_symbol_table.set('False', Number.false)  # 设置FALSE的值为0
-global_symbol_table.set('println', BuiltInFunction.println)
-global_symbol_table.set('printf', BuiltInFunction.printf)
-global_symbol_table.set('str', BuiltInFunction.str)
-global_symbol_table.set('type', BuiltInFunction.type)
-global_symbol_table.set('int', BuiltInFunction.int)
-global_symbol_table.set('input', BuiltInFunction.input)
-global_symbol_table.set('clear', BuiltInFunction.clear)
-global_symbol_table.set('is_num', BuiltInFunction.is_number)
-global_symbol_table.set('is_str', BuiltInFunction.is_string)
-global_symbol_table.set('is_list', BuiltInFunction.is_list)
-global_symbol_table.set('is_func', BuiltInFunction.is_function)
-global_symbol_table.set('append', BuiltInFunction.append)
-global_symbol_table.set('pop', BuiltInFunction.pop)
-global_symbol_table.set('extend', BuiltInFunction.extend)
+SetGlobalSymbol('Null', Number.null)
+SetGlobalSymbol('True', Number.true)
+SetGlobalSymbol('False', Number.false)
+SetGlobalSymbol('println', BuiltInFunction.println, True)
+SetGlobalSymbol('printf', BuiltInFunction.printf, True)
+SetGlobalSymbol('str', BuiltInFunction.str, True)
+SetGlobalSymbol('type', BuiltInFunction.type, True)
+SetGlobalSymbol('int', BuiltInFunction.int, True)
+SetGlobalSymbol('input', BuiltInFunction.input, True)
+SetGlobalSymbol('clear', BuiltInFunction.clear, True)
+SetGlobalSymbol('is_num', BuiltInFunction.is_number, True)
+SetGlobalSymbol('is_number', BuiltInFunction.is_number, True)
+SetGlobalSymbol('is_str', BuiltInFunction.is_string, True)
+SetGlobalSymbol('is_string', BuiltInFunction.is_string, True)
+SetGlobalSymbol('is_list', BuiltInFunction.is_list, True)
+SetGlobalSymbol('is_func', BuiltInFunction.is_function, True)
+SetGlobalSymbol('is_function', BuiltInFunction.is_function, True)
+SetGlobalSymbol('append', BuiltInFunction.append, True)
+SetGlobalSymbol('pop', BuiltInFunction.pop, True)
+SetGlobalSymbol('extend', BuiltInFunction.extend, True)
+SetGlobalSymbol('float', BuiltInFunction.float, True)
 releaseMode = yaml.safe_load(open("EasyScript/config.yml").read())['options']['release-mode']
 
 

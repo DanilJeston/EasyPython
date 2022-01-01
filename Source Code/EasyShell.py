@@ -6,11 +6,69 @@ import os
 import argparse
 import platform
 import datetime
+import keyboard
+import getpass
 
-with open("EasyScript/config.yml") as f:
-    config = yaml.safe_load(f.read())
 
-if config['options']['fix-move-keys']:
+def GetSystemDevices():
+    import psutil
+    for x in psutil.disk_partitions():
+        try:
+            os.access(f"{x[1]}Windows", os.F_OK)
+        except FileNotFoundError:
+            pass
+        else:
+            SystemDevice = x[1]
+            break
+    return SystemDevice
+
+# 设置AppData存放位置
+if os.name == 'nt':
+    if os.getenv('APPDATA'):
+        AppDataDir = f"{os.getenv('APPDATA')}/Local/"
+        if os.access(f"{AppDataDir}EasyPython", os.F_OK):
+            AppDataDir = f"{os.getenv('APPDATA')}/Local/EasyPython"
+        else:
+            os.mkdir(f"{AppDataDir}EasyPython")
+            AppDataDir = f"{os.getenv('APPDATA')}/Local/EasyPython"
+    else:
+        AppDataDir = f"{GetSystemDevices()}User/{getpass.getuser()}/AppData/Local/"
+        if os.access(f"{AppDataDir}EasyPython", os.F_OK):
+            AppDataDir = f"{os.getenv('APPDATA')}/Local/EasyPython"
+        else:
+            os.mkdir(f"{AppDataDir}EasyPython")
+            AppDataDir = f"{os.getenv('APPDATA')}/Local/EasyPython"
+            
+else:
+    if os.getenv('HOME'):
+        AppDataDir = f"{os.getenv('HOME')}/.config/"
+        if os.access(f"{AppDataDir}EasyPython", os.F_OK):
+            AppDataDir = f"{os.getenv('HOME')}/.config/EasyPython"
+        else:
+            os.mkdir(f"{AppDataDir}EasyPython")
+            AppDataDir = f"{os.getenv('HOME')}/.config/EasyPython"
+    else:
+        AppDataDir = f"/home/{getpass.getuser()}/.config/"
+        if os.access(f"{AppDataDir}EasyPython", os.F_OK):
+            AppDataDir = f"{os.getenv('HOME')}/.config/EasyPython"
+        else:
+            os.mkdir(f"{AppDataDir}EasyPython")
+            AppDataDir = f"{os.getenv('HOME')}/.config/EasyPython"
+
+# 读取 config.yml 文件
+# with open("EasyScript/config.yml") as f:
+    # config = yaml.safe_load(f.read())
+try:
+    with open(f"{AppDataDir}/config.yml") as f:
+        config = yaml.safe_load(f.read())
+except FileNotFoundError or PermissionError:
+    print("Config File Not Found, Creating.")
+    with open("EasyScript/config.yml") as t:
+        with open(f"{AppDataDir}/config.yml", 'w') as f:
+            f.write(t.read())
+    config = yaml.safe_load(open(f"{AppDataDir}/config.yml").read())
+
+if config['options']['fix-move-keys'] and os.name != 'nt':
     import readline
 
 # 初始化argparse
@@ -51,7 +109,7 @@ ArgParser.add_argument("-v",
 # 添加选项
 ArgParser.add_argument("--fix-move-keys",
                        action="store_true",
-                       help="Fix the problem of moving keys.")
+                       help="Fix the problem of moving keys. [Only For Linux]")
 
 # 分析参数
 args = ArgParser.parse_args()
@@ -116,6 +174,9 @@ def shell(name="<stdin>", RunFile=False, command=""):
         # 如果用户输入了exit
         if command == 'exit':
             # 退出并打印信息
+            print("If you want to exit, please use '.exit'.")
+
+        elif command == '.exit':
             sys.exit("Good bye, Thanks for using.")
 
         elif command == '' or command == '\n':
@@ -170,15 +231,20 @@ if __name__ == '__main__':
             raise PermissionError(f"Cannot open file {args.file}.")
     # 如果带有 --fix-move-keys
     if args.fix_move_keys is True:
-        if not config['options']['fix-move-keys']:
-            user_input = input(
-                'It is detected that you have added the --fix-move-keys option. Do you need to fix the problem permanently? [Y/n]:'
-            )
-            if user_input == 'y' or user_input == 'Y' or user_input == '':
-                with open("EasyScript/config.yml", 'w') as f:
-                    config['options']['fix-move-keys'] = True
-                    f.write(yaml.dump(config))
-                import readline
+        if os.name != 'nt':
+            if not config['options']['fix-move-keys']:
+                user_input = input(
+                    'It is detected that you have added the --fix-move-keys option. Do you need to fix the problem permanently? [Y/n]:'
+                )
+                if user_input == 'y' or user_input == 'Y' or user_input == '':
+                    with open("EasyScript/config.yml", 'w') as f:
+                        config['options']['fix-move-keys'] = True
+                        f.write(yaml.dump(config))
+                    import readline
+                else:
+                    import readline
+        else:
+            pass
     # 如果有给 -i 或任何参数也没有
     if args.interactive:
         # 进入shell

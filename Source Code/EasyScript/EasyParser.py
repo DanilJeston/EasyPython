@@ -405,7 +405,7 @@ class Parser:
                                        self.current_tok.pos_end,
                                        "Expected identifier"))
 
-            if self.current_tok.value in KEYWORDS or self.current_tok.value in BuiltInFunctionList:
+            if self.current_tok.value in KEYWORDS or self.current_tok.value in BuiltInFunctionList or self.current_tok.value in BuiltInIdentifierList:
                 pos_start = self.current_tok.pos_start.copy()
                 res.register_advancement()
                 self.advance()
@@ -458,7 +458,7 @@ class Parser:
         res.register_advancement()
         self.advance()
         
-        if self.current_tok.value in KEYWORDS or self.current_tok.value in BuiltInFunctionList:
+        if self.current_tok.value in KEYWORDS or self.current_tok.value in BuiltInFunctionList or self.current_tok.value in BuiltInIdentifierList:
             pos_start = self.current_tok.pos_start.copy()
             res.register_advancement()
             self.advance()

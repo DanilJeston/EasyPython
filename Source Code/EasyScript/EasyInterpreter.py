@@ -282,7 +282,10 @@ class Interpreter:
         if res.error:
             return res
         if return_value:
-            return_value = return_value.copy().set_pos(node.pos_start, node.pos_end).set_context(context)
+            try:
+                return_value = return_value.copy().set_pos(node.pos_start, node.pos_end).set_context(context)
+            except:
+                pass
             return res.success(return_value)
         else:
             return res.success(None)

@@ -253,6 +253,9 @@ class String(Value):
         copy.set_context(self.context)
         return copy
 
+    def special_repr(self):
+        return f'{self.value}'
+
     def __repr__(self):
         return f'"{self.value}"'
 
@@ -437,7 +440,10 @@ class BuiltInFunction(BaseFunction):
     """
 
     def execute_println(self, exec_ctx):
-        print(str(exec_ctx.symbol_table.get("value").value))
+        try:
+            print(str(String(exec_ctx.symbol_table.get("value")).value))
+        except:
+            RTResult().failure(InvalidSyntaxError(self.pos_start, self.pos_end, f"'value' args need string, number, list or function, not {type(value).__name__}"))
         return RTResult().success(None)
 
     # # 需要参数: 'value'
@@ -567,10 +573,27 @@ class BuiltInFunction(BaseFunction):
 
     def execute_type(self, exec_ctx):
         value = exec_ctx.symbol_table.get("value")
-        return RTResult().success(String(f"<class {value.type}>"))
+        if value.type == "number":
+            return RTResult().success(String(f"<class '{value.type}':{type(value.value).__name__}>").value)
+        return RTResult().success(String(f"<class '{value.type}'>").value)
 
     execute_type.arg_names = ['value']
+    
+    def execute_float(self, exec_ctx):
+        value = exec_ctx.symbol_table.get("value")
+        try:
+            return RTResult().success(Number(float(value.value)))
+        except:
+            if isinstance(value, List):
+                return RTResult().failure(InvalidSyntaxError(self.pos_start, self.pos_end, f"could not convert {value.type} to float: {value.elements}"))
+            elif isinstance(value, Function):
+                return RTResult().failure(InvalidSyntaxError(self.pos_start, self.pos_end, f"could not convert {value.type} to float."))
+            else:
+                return RTResult().failure(InvalidSyntaxError(self.pos_start, self.pos_end, f"could not convert {value.type} to float: {value.value}"))
+                
+                
 
+    execute_float.arg_names = ['value']
 
 BuiltInFunction.type = BuiltInFunction("type")
 BuiltInFunction.str = BuiltInFunction("str")
@@ -586,3 +609,4 @@ BuiltInFunction.is_function = BuiltInFunction("is_function")
 BuiltInFunction.append = BuiltInFunction("append")
 BuiltInFunction.pop = BuiltInFunction("pop")
 BuiltInFunction.extend = BuiltInFunction("extend")
+BuiltInFunction.float = BuiltInFunction("float")

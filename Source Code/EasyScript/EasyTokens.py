@@ -53,10 +53,8 @@ KEYWORDS = [
     'step', 'while', 'function'
 ]
 
-BuiltInFunctionList = [
-    'Null', 'True', 'False', 'println', 'printf', 'str', 'type', 'int', 'input',
-    'clear', 'is_num', 'is_str', 'is_list', 'is_func', 'append', 'pop', 'extend'
-]
+BuiltInFunctionList = []
+BuiltInIdentifierList = []
 
 
 class Token:
