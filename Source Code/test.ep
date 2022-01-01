@@ -1,3 +1,6 @@
 define a = 1
 for i = 1 to 6 then define a = a * i
-println(type(a))
+if 18 == 18
+  println("math works");
+else
+  println("it's broken!")

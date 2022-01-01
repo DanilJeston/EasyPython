@@ -179,8 +179,8 @@ def shell(name="<stdin>", RunFile=False, command=""):
         elif command == '.exit':
             sys.exit("Good bye, Thanks for using.")
 
-        elif command == '' or command == '\n':
-            pass
+        elif command.strip() == "":
+            continue
 
         elif command == 'copyright':
             author = "yps and __init__"
@@ -202,7 +202,10 @@ def shell(name="<stdin>", RunFile=False, command=""):
             # 如果有返回值
             elif result:
                 # 打印返回值
-                print(result)
+                if len(result.elements) == 1:
+                    print(repr(result.elements[0]))
+                else:
+                    print(repr(result))
 
         if RunFile:
             break
@@ -222,11 +225,7 @@ if __name__ == '__main__':
             path, temp = os.path.split(args.file)
             file_name, extension = os.path.splitext(temp)
             with open(args.file) as f:
-                command = f.readline()
-                while command[len(command) - 1:] == '\n':
-                    shell(f"{file_name}{extension}", True, command)
-                    command = f.readline()
-                shell(f"{file_name}{extension}", True, command)
+                shell(f"{file_name}{extension}", True, f.read())
         else:
             raise PermissionError(f"Cannot open file {args.file}.")
     # 如果带有 --fix-move-keys

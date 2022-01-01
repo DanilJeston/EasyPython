@@ -23,7 +23,10 @@ class Lexer:
         tokens = []
 
         while self.current_char is not None:
-            if self.current_char in '\n \t':
+            if self.current_char in ' \t':
+                self.advance()
+            elif self.current_char in ';\n':
+                tokens.append(Token(TT_NEWLINE, pos_start=self.pos))
                 self.advance()
             elif self.current_char in DIGITS:
                 tokens.append(self.make_number())

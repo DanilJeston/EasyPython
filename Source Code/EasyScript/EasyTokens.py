@@ -46,11 +46,12 @@ TT_LTE = 'LTE'
 TT_GTE = 'GTE'
 TT_COMMA = 'COMMA'
 TT_ARROW = 'ARROW'
+TT_NEWLINE = 'NEWLINE'
 TT_EOF = 'EOF'
 
 KEYWORDS = [
     'define', 'and', 'or', 'not', 'if', 'then', 'elif', 'else', 'for', 'to',
-    'step', 'while', 'function'
+    'step', 'while', 'function', 'end'
 ]
 
 BuiltInFunctionList = []

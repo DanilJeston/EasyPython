@@ -1,3 +1,5 @@
+statements              : NEWLINE* expr (NEWLINE+ expr)* NEWLINE*
+
 expr                    : KEYWORD:VAR IDENTIFIER EQ expr
                         : comp-expr ((KEYWORD:and|KEYWORD:or) arith-expr)*
 
@@ -26,14 +28,28 @@ atom                    : INT|FLOAT|STRING|IDENTIFIER
 list-expr               : LSQUARE (expr (COMMA expr)*)? RSQUARE
 
 if-expr                 : KEYWORD:if expr KEYWORD:then expr
-                        : (KEYWORD:elif expr KEYWORD:then expr)
-                        : (KEYWORD:else exor)?
+                        : (expr if-expr-b|if-expr-c)
+                        | (NEWLINE statements KEYWORD:end if-expr-b|if-expr-c)
+
+if-expr-b               : KEYWORD:elif expr KEYWORD:then expr
+                        : (expr if-expr-b|if-expr-c)
+                        | (NEWLINE statements KEYWORD:end if-expr-b|if-expr-c)
+
+if-expr-c               : KEYWORD:else
+                        : expr
+                        | (NEWLINE statements KEYWORD:end)
+
 
 for-expr                : KEYWORD:for IDENTIFIER EQ expr KEYWORD:to expr
-                          (KEYWORD:step expr)? KEYWORD:then expr
+                        : (KEYWORD:step expr)? KEYWORD:then 
+                        : expr
+                        | (NEWLINE statements KEYWORD:end)
 
-while-expr              : KEYWORD:while expr keyword:then expr
+while-expr              : KEYWORD:while expr keyword:then
+                          expr
+                        | (NEWLINE statements KEYWORD:end)
 
 func-def                : KEYWORD:function IDENTIFIER?
                           LPAREN (IDENTIFIER (COMMA IDENTIFIER)*)? RPAREN
-                          ARROW expr
+                          (ARROW expr）
+                        | (NEWLINE statements KEYWORD:end)
