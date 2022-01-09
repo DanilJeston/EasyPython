@@ -51,11 +51,12 @@ TT_EOF = 'EOF'
 
 KEYWORDS = [
     'define', 'and', 'or', 'not', 'if', 'then', 'elif', 'else', 'for', 'to',
-    'step', 'while', 'function', 'end'
+    'step', 'while', 'function', 'end', 'import'
 ]
 
 BuiltInFunctionList = []
 BuiltInIdentifierList = []
+PackageName = ['math']
 
 
 class Token:

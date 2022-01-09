@@ -383,7 +383,8 @@ class Function(BaseFunction):
         return res.success(Number.null if self.should_return_null else value)
 
     def copy(self):
-        copy = Function(self.name, self.body_node, self.arg_names, self.should_return_null)
+        copy = Function(self.name, self.body_node, self.arg_names,
+                        self.should_return_null)
         copy.set_context(self.context)
         copy.set_pos(self.pos_start, self.pos_end)
         return copy
@@ -444,14 +445,18 @@ class BuiltInFunction(BaseFunction):
         try:
             print(str(String(exec_ctx.symbol_table.get("value")).value))
         except:
-            RTResult().failure(InvalidSyntaxError(self.pos_start, self.pos_end, f"'value' args need string, number, list or function, not {type(value).__name__}"))
+            RTResult().failure(
+                InvalidSyntaxError(
+                    self.pos_start, self.pos_end,
+                    f"'value' args need string, number, list or function, not {type(value).__name__}"
+                ))
         return RTResult().success(None)
 
     # # 需要参数: 'value'
     execute_println.arg_names = ["value"]
 
     def execute_printf(self, exec_ctx):
-        print(str(exec_ctx.symbol_table.get("value").value), end="")
+        print(str(exec_ctx.symbol_table.get("value")), end="")
         return RTResult().success(None)
 
     execute_printf.arg_names = ['value']
@@ -461,6 +466,12 @@ class BuiltInFunction(BaseFunction):
         return RTResult().success(String(text))
 
     execute_input.arg_names = []
+
+    def execute_input_tip(self, exec_ctx):
+        text = input(str(exec_ctx.symbol_table.get("value").value))
+        return RTResult().success(String(text))
+
+    execute_input_tip.arg_names = ['value']
 
     def execute_clear(self, exec_ctx):
         os.system('cls' if os.name == 'nt' else 'clear')
@@ -575,27 +586,40 @@ class BuiltInFunction(BaseFunction):
     def execute_type(self, exec_ctx):
         value = exec_ctx.symbol_table.get("value")
         if value.type == "number":
-            return RTResult().success(String(f"<class '{value.type}':{type(value.value).__name__}>").value)
+            return RTResult().success(
+                String(f"<class '{value.type}':{type(value.value).__name__}>").
+                value)
         return RTResult().success(String(f"<class '{value.type}'>").value)
 
     execute_type.arg_names = ['value']
-    
+
     def execute_float(self, exec_ctx):
         value = exec_ctx.symbol_table.get("value")
         try:
             return RTResult().success(Number(float(value.value)))
         except:
             if isinstance(value, List):
-                return RTResult().failure(InvalidSyntaxError(self.pos_start, self.pos_end, f"could not convert {value.type} to float: {value.elements}"))
+                return RTResult().failure(
+                    InvalidSyntaxError(
+                        self.pos_start, self.pos_end,
+                        f"could not convert {value.type} to float: {value.elements}"
+                    ))
             elif isinstance(value, Function):
-                return RTResult().failure(InvalidSyntaxError(self.pos_start, self.pos_end, f"could not convert {value.type} to float."))
+                return RTResult().failure(
+                    InvalidSyntaxError(
+                        self.pos_start, self.pos_end,
+                        f"could not convert {value.type} to float."))
             else:
-                return RTResult().failure(InvalidSyntaxError(self.pos_start, self.pos_end, f"could not convert {value.type} to float: {value.value}"))
-                
-                
+                return RTResult().failure(
+                    InvalidSyntaxError(
+                        self.pos_start, self.pos_end,
+                        f"could not convert {value.type} to float: {value.value}"
+                    ))
 
     execute_float.arg_names = ['value']
 
+
+BuiltInFunction.input_tip = BuiltInFunction("input_tip")
 BuiltInFunction.type = BuiltInFunction("type")
 BuiltInFunction.str = BuiltInFunction("str")
 BuiltInFunction.int = BuiltInFunction("int")

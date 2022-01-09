@@ -635,7 +635,7 @@ class Parser:
             return res.failure(
                 InvalidSyntaxError(
                     self.current_tok.pos_start, self.current_tok.pos_end,
-                    "Excepted 'define', 'if', 'for', 'while', 'function', int, float, identifier, '+', '-', '(', '[' or 'not'"
+                    "Expected 'define', 'if', 'for', 'while', 'function', int, float, identifier, '+', '-', '(', '[' or 'not'"
                 ))
 
         return res.success(node)

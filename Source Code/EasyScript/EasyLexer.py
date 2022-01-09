@@ -97,9 +97,10 @@ class Lexer:
         escape_character = False
         self.advance()
 
-        escape_characters = {'n': '\n', 't': '\t'}
+        escape_characters = {'n': '\n', 't': '\t', 'b': '\b', 'r': '\r'}
 
-        while self.current_char is not None and (self.current_char != type_ or escape_character):
+        while self.current_char is not None and (self.current_char != type_
+                                                 or escape_character):
             if escape_character:
                 string += escape_characters.get(self.current_char,
                                                 self.current_char)
@@ -110,7 +111,6 @@ class Lexer:
                 else:
                     string += self.current_char
             self.advance()
-            
 
         self.advance()
         return Token(TT_STRING, string, pos_start, self.pos)

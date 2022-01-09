@@ -6,7 +6,6 @@ import os
 import argparse
 import platform
 import datetime
-import keyboard
 import getpass
 
 
@@ -21,6 +20,7 @@ def GetSystemDevices():
             SystemDevice = x[1]
             break
     return SystemDevice
+
 
 # 设置AppData存放位置
 if os.name == 'nt':
@@ -38,7 +38,7 @@ if os.name == 'nt':
         else:
             os.mkdir(f"{AppDataDir}EasyPython")
             AppDataDir = f"{os.getenv('APPDATA')}/Local/EasyPython"
-            
+
 else:
     if os.getenv('HOME'):
         AppDataDir = f"{os.getenv('HOME')}/.config/"
@@ -57,7 +57,7 @@ else:
 
 # 读取 config.yml 文件
 # with open("EasyScript/config.yml") as f:
-    # config = yaml.safe_load(f.read())
+# config = yaml.safe_load(f.read())
 try:
     with open(f"{AppDataDir}/config.yml") as f:
         config = yaml.safe_load(f.read())

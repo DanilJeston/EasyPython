@@ -29,9 +29,11 @@ def SetGlobalSymbol(name, value, IsBuiltInFunction=False):
         global_symbol_table.set(name, value)
         BuiltInIdentifierList.append(name)
 
+
 # 生成变量表
 global_symbol_table = SymbolTable()
 SetGlobalSymbol('Null', Number.null)
+SetGlobalSymbol('input_tip', BuiltInFunction.input_tip)
 SetGlobalSymbol('True', Number.true)
 SetGlobalSymbol('False', Number.false)
 SetGlobalSymbol('println', BuiltInFunction.println, True)
@@ -52,7 +54,8 @@ SetGlobalSymbol('append', BuiltInFunction.append, True)
 SetGlobalSymbol('pop', BuiltInFunction.pop, True)
 SetGlobalSymbol('extend', BuiltInFunction.extend, True)
 SetGlobalSymbol('float', BuiltInFunction.float, True)
-releaseMode = yaml.safe_load(open("EasyScript/config.yml").read())['options']['release-mode']
+releaseMode = yaml.safe_load(
+    open("EasyScript/config.yml").read())['options']['release-mode']
 
 
 # 创建函数 run
